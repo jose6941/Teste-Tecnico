@@ -29,6 +29,8 @@ Consiste em realizar uma série de tratamentos nos dados, para garantir que os d
 
 ## Lógica do código
 
+</br>
+
 1. **Leitura do arquivo JSON:**
  Abre o arquivo original `teste_estagio_instar.json` e carrega os dados em memória usando `json.load()`.
 
@@ -41,6 +43,9 @@ Consiste em realizar uma série de tratamentos nos dados, para garantir que os d
         arquivo = json.load(f)
 
 ```
+
+</br>
+
 2. **Limpeza de campos de texto:**
  Remove caracteres especiais como `\xa0` e espaços extras usando a função `strip()` dos campos `nome`, `sobrenome` e `titulo`.  
 
@@ -50,10 +55,13 @@ Consiste em realizar uma série de tratamentos nos dados, para garantir que os d
     for chave in ["nome", "sobrenome", "titulo"]:
         if chave in item and item[chave]:
 
-            # Substitui o caracter especial por espaço e depois remove esse espaço, deixando-o formatado
+            # Substitui o caracter especial por espaço e depois 
+            # remove esse espaço, deixando-o formatado
             item[chave] = item[chave].replace("\xa0", " ").strip()
 
 ```
+
+</br>
 
 3. **Padronização de datas:**
  Utiliza a função `converter_data()` para tenta converter datas no formato `"dd/mm/yyyy HH:MM:SS"`, se caso for o formato sem o horário, converte no formato `"dd/mm/yyyy"`. Assim ele retorna a data no padrão `"YYYY-MM-DD HH:MM:SS"`. Escolhi fazer uma função para conversão de datas para facilitar a conversão dos dois tipos que foram pedidos, o dataRealizacao e a data dentro dos arquivos.
@@ -70,7 +78,8 @@ Consiste em realizar uma série de tratamentos nos dados, para garantir que os d
             # Caso não seja o primeiro formato, a string será convertida no formato ("%d/%m/%Y")
             data_original = datetime.strptime(data, "%d/%m/%Y") 
 
-        # Retorno a data já convertida em string, se caso não tiver o horário, sera colocado como 00:00:00
+        # Retorno a data já convertida em string, se caso não tiver o horário, 
+        # sera colocado como 00:00:00
         return data_original.strftime("%Y-%m-%d %H:%M:%S")
        
 ```
@@ -92,32 +101,40 @@ Consiste em realizar uma série de tratamentos nos dados, para garantir que os d
        
 ```
 
+</br>
+
 4. **Formatação de títulos:**
  Se o campo `titulo` contiver "...", substitui pela data e hora correspondente ao item, no formato `"dd/mm/yyyy às HH:MM:SS"`, que foi guardado na variável data_original.
 
 ```bash
 
-    # Verfica se a chave titulo está contido no arquivo e se há "..." na string
+    # Verfica se a chave titulo está contido no arquivo e 
+    # se há "..." na string
     if "titulo" in item and "..." in item["titulo"]:
 
-        # Converte a data original da dataRealizacao para o formato ("%d/%m/%Y %H:%M:%S")
+        # Converte a data original da dataRealizacao para o 
+        # formato ("%d/%m/%Y %H:%M:%S")
         dt = datetime.strptime(data_original, "%d/%m/%Y %H:%M:%S")
 
         # Seapra a data original em dois formatos, data e hora
         data_fmt = dt.strftime("%d/%m/%Y")
         hora_fmt = dt.strftime("%H:%M:%S")
 
-        # Substitui o "..." pelos formatos da data original, data e hora
+        # Substitui o "..." pelos formatos da data original, 
+        # data e hora
         item["titulo"] = item["titulo"].replace("...", f"{data_fmt} às {hora_fmt}")
 
 ```
+
+</br>
 
 5. **Remoção de valores nulos:**
  Remove chaves com valor "None" ,Para o objeto "arquivos",percebi que na saída desejada os valores nulos não foram excluídos, logo os valores nulos foram substituídos por strings vazias, como estava no arquivo de saída.
 
 ```bash
 
-    # Para cada chave do arquivo json que tiver campo nulo, sera armazenado em um vetor para depois serem deletadas
+    # Para cada chave do arquivo json que tiver campo nulo, 
+    # será armazenado em um vetor para depois serem deletadas
     chaves_remover = [chave for chave, valor in item.items() if valor is None] 
     for chave in chaves_remover: 
 
@@ -136,6 +153,8 @@ Consiste em realizar uma série de tratamentos nos dados, para garantir que os d
 
 ```
 
+</br>
+
 6. **Concatenação de listas:**
  Se o campo `descricao` for uma lista, converte para uma única string separada por espaços.
 
@@ -144,7 +163,8 @@ Consiste em realizar uma série de tratamentos nos dados, para garantir que os d
     # Verifica se o valor da chave "descricao" é uma lista
     if isinstance(item.get("descricao"), list):
 
-        # Junta todos os valores da lista em uma única string separado por espaço
+        # Junta todos os valores da lista em uma única string 
+        # separado por espaço
         item["descricao"] = " ".join(item["descricao"])
     
     # Armazena apenas as chaves que não forem nulas
@@ -152,6 +172,8 @@ Consiste em realizar uma série de tratamentos nos dados, para garantir que os d
     arquivo[arquivo.index(item)] = item_limpo
 
 ```
+
+</br>
 
 7. **Criação do arquivo final:**
  Salva os dados tratados em "teste_estagio_instar_tratado.json" usando json.dump() com indentação e codificação UTF-8.
@@ -166,7 +188,7 @@ Consiste em realizar uma série de tratamentos nos dados, para garantir que os d
 
         # Grava o arquivo no formato json no arquivo de saída
         json.dump(arquivo, f, indent=4, ensure_ascii=False)
-        
+
 ```
 8. **Resultado:**
 
@@ -180,7 +202,8 @@ Arquivo json formatado
         "sobrenome": "Silva de Oliveira",
         "dataRealizacao": "2015-12-31 08:30:00",
         "titulo": "O evento será dia 31/12/2015 às 08:30:00 às 31/12/2015 às 08:30:00",
-        "descricao": "o evento será realizado no auditório da Prefeitura Municipal de Penápolis às 08:30 horas",
+        "descricao": "o evento será realizado no auditório da Prefeitura Municipal de 
+         Penápolis às 08:30 horas",
         "arquivos": [
             {
                 "arquivo": "https://www.evento.com.br/uploads/2016/01/capa-evento.pdf",
@@ -200,7 +223,7 @@ Arquivo json formatado
 
 </br>
 
-## Consulta m banco de dados SQL
+## Consulta em banco de dados SQL
 
 Consiste na criação de consultas entre tabelas de clientes e pedidos. Obtendo todos os clientes que realizaram pedidos acima de R$ 100, ordenados pelo nome e o total de pedidos realizados por cada cliente.  
 
@@ -210,6 +233,8 @@ Consiste na criação de consultas entre tabelas de clientes e pedidos. Obtendo 
 - Fazer um SELECT que retorne o total de pedidos realizados por cada cliente.   
 
 ## Lógica do código
+
+</br>
 
 1. **Criação das tabelas:**
 
@@ -236,6 +261,9 @@ Cria as tabelas de clientes e pedidos com seus respectivos campos e chaves.
     );
     
 ```
+
+</br>
+
 2. **Consulta dos clientes que fizeram algum pedido:**
 
 Neste código há um SELECT para todos os clientes que realizaram pedidos acima de R$ 100, ordenados pelo nome. Foi utilizado o inner join, que foi escrito apenas join, para retornar apenas os clientes que possuem pelo menos um pedido acima de R$ 100.
@@ -249,13 +277,16 @@ Neste código há um SELECT para todos os clientes que realizaram pedidos acima 
     ORDER BY c.nome # Ordenado por nome
     
 ```
+
+</br>
+
 3. **Consulta do total de pedidos realizados por cada cliente:**
 
 Neste código há um SELECT para mostrar quantos pedidos foram feitos para cada cliente, mesmo que o mesmo não tenha nenhum. Dessa forma foi utilizado o LEFT JOIN, para mostrar todos os clientes mesmo que algum não tenha feito nenhum pedido.
 
 ```bash
 
-    SELECT c.id, c.nome, COUNT(p.id) AS total_pedidos # Pega todos os campos do cliente e conta o numero de pedidos
+    SELECT c.id, c.nome, COUNT(p.id) AS total_pedidos # Pega as informações do cliente e o numero de pedidos
     FROM clientes c
     LEFT JOIN pedidos p ON c.id = p.id_cliente # Retorna todos os clientes, mesmo os que não têm pedidos
     GROUP BY c.id, c.nome # Agrupa os resultados por id e nome do cliente
@@ -277,6 +308,8 @@ consiste em implementar um código que extrai as informações da página books.
 
 ## Lógica do código
 
+</br>
+
 1. **Criando ambiente virtual:**
 
 Dentro da pasta do projeto, executo os seguintes comandos para criar, ativar o ambiente virtual em python
@@ -291,6 +324,8 @@ Dentro da pasta do projeto, executo os seguintes comandos para criar, ativar o a
 
 ```
 
+</br>
+
 2. **Criando o projeto junto com o spider:**
 
 Dentro da pasta do ambiente virtual, instale a biblioteca scrapy, inicie o projeto scrapy e crie o arquivo do spider com os seguintes comandos
@@ -303,9 +338,11 @@ Dentro da pasta do ambiente virtual, instale a biblioteca scrapy, inicie o proje
 
     cd "nome do projeto" # Entra na pasta do projeto
 
-    scrapy genspider "nome do arquivo" "url do site" # Cria o spider com o link do site para extrair os dados
+    scrapy genspider "nome do arquivo" "url do site" # Cria o spider com o link do site 
 
 ```
+
+</br>
 
 3. **Criando o código para extrair os dados do site:**
 
@@ -326,8 +363,8 @@ Dentro do arquivo spider que foi criado, foi feito os comando para extrair as in
         # Percorre todos os cards dos livros da página por meio da class css
         for livro in response.css('.product_pod'):
 
-            # Retorna as informações de imagem, título, preço e disponibilidade de estoque de todos os livros
-            # da primeira página
+            # Retorna as informações de imagem, título, preço e disponibilidade 
+            # de estoque de todos os livros da primeira página
             yield{
                 "imagem": livro.css('.thumbnail ::attr(src)').get(), 
                 "titulo":  livro.css('.product_pod h3 a ::text').get(),
@@ -336,6 +373,8 @@ Dentro do arquivo spider que foi criado, foi feito os comando para extrair as in
             }
 
 ```
+
+</br>
 
 4. **Executando o spider para gerar arquivo json:**
 
@@ -348,6 +387,8 @@ Feito o código, é possível rodar o arquivo spider com as informações no ter
     scrapy crawl books -O "nome_do_arquivo.json" # Gera arquivo no formato json
 
 ```
+
+</br>
 
 5. **Resultado:**
 
