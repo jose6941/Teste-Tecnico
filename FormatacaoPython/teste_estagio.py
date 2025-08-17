@@ -37,6 +37,8 @@ for item in arquivo:
         for arq in item["arquivos"]: 
             chaves_remover = [chave for chave, valor in arq.items() if valor is None] 
 
+            arq["data"] = converter_data(arq["data"])
+
             for chave in chaves_remover: 
                 arq[chave] = ""
     
@@ -44,7 +46,7 @@ for item in arquivo:
     if isinstance(item.get("descricao"), list):
         item["descricao"] = " ".join(item["descricao"])
     
-    item_limpo = {k: v for k, v in item.items() if v is not None}
+    item_limpo = {chave: valor for chave, valor in item.items() if valor is not None}
     arquivo[arquivo.index(item)] = item_limpo
 
 output_path = "teste_estagio_instar_tratado.json"

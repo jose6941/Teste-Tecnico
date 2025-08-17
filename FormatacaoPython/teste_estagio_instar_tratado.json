@@ -9,12 +9,12 @@
             {
                 "arquivo": "https://www.evento.com.br/uploads/2016/01/capa-evento.pdf",
                 "titulo": "",
-                "data": "11/01/2016"
+                "data": "2016-01-11 00:00:00"
             },
             {
                 "arquivo": "https://www.evento.com.br/uploads/2016/01/capa-evento2.pdf",
                 "titulo": "Capa do evento",
-                "data": "12/01/2016"
+                "data": "2016-01-12 00:00:00"
             }
         ]
     }
