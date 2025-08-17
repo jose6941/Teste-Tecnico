@@ -1,6 +1,5 @@
 import scrapy
 
-
 class BooksSpider(scrapy.Spider):
     name = "books"
     start_urls = ["https://books.toscrape.com/"]
