@@ -39,6 +39,7 @@ Consiste em realizar uma série de tratamentos nos dados, para garantir que os d
 
         # Guarda o arquivo em uma variável
         arquivo = json.load(f)
+
 ```
 2. **Limpeza de campos de texto:**
  Remove caracteres especiais como `\xa0` e espaços extras usando a função `strip()` dos campos `nome`, `sobrenome` e `titulo`.  
@@ -51,12 +52,14 @@ Consiste em realizar uma série de tratamentos nos dados, para garantir que os d
 
             # Substitui o caracter especial por espaço e depois remove esse espaço, deixando-o formatado
             item[chave] = item[chave].replace("\xa0", " ").strip()
+
 ```
 
 3. **Padronização de datas:**
  Utiliza a função `converter_data()` para tenta converter datas no formato `"dd/mm/yyyy HH:MM:SS"`, se caso for o formato sem o horário, converte no formato `"dd/mm/yyyy"`. Assim ele retorna a data no padrão `"YYYY-MM-DD HH:MM:SS"`. Escolhi fazer uma função para conversão de datas para facilitar a conversão dos dois tipos que foram pedidos, o dataRealizacao e a data dentro dos arquivos.
 
 ```bash
+
     def converter_data(data): 
         try: 
 
@@ -106,6 +109,7 @@ Consiste em realizar uma série de tratamentos nos dados, para garantir que os d
 
         # Substitui o "..." pelos formatos da data original, data e hora
         item["titulo"] = item["titulo"].replace("...", f"{data_fmt} às {hora_fmt}")
+
 ```
 
 5. **Remoção de valores nulos:**
@@ -129,6 +133,7 @@ Consiste em realizar uma série de tratamentos nos dados, para garantir que os d
             for chave in chaves_remover: 
                 # Substitui os valores nulos por string vazia
                 arq[chave] = ""
+
 ```
 
 6. **Concatenação de listas:**
@@ -145,6 +150,7 @@ Consiste em realizar uma série de tratamentos nos dados, para garantir que os d
     # Armazena apenas as chaves que não forem nulas
     item_limpo = {chave: valor for chave, valor in item.items() if valor is not None}
     arquivo[arquivo.index(item)] = item_limpo
+
 ```
 
 7. **Criação do arquivo final:**
@@ -160,6 +166,7 @@ Consiste em realizar uma série de tratamentos nos dados, para garantir que os d
 
         # Grava o arquivo no formato json no arquivo de saída
         json.dump(arquivo, f, indent=4, ensure_ascii=False)
+        
 ```
 8. **Resultado:**
 
