@@ -1,29 +1,29 @@
-<div>
-    <h1 align="center">
-        Teste técnico estágio Instar
-    </h1>
-    <p>
-        Este repositório contém três partes do teste técnico: 
-
-        Raciocínio Lógico em Python, que consiste em realizar uma série de tratamentos nos dados, para garantir que os dados estejam formatados corretamente e prontos para uso em um sistema.
-
-        Consultas em Banco de Dados SQL, para a criação de consultas entre tabelas de clientes e pedidos. Obtendo todos os clientes que realizaram pedidos acima de R$ 100, ordenados pelo nome e o total de pedidos realizados por cada cliente.
-
-        Extração de Dados com Scrapy, consiste em implementar um projeto que extraia as informações da página books.toscrape utilizando a biblioteca Scrapy do Python, tudo isso em um ambiente virtual.
-    </p>
+<div align="center">
+  <h1>Teste Técnico Estágio Instar</h1>
 </div>
 
-## Raciocínio lógico em Python
+<p align="center">
+  Este repositório contém três partes do teste técnico:
+</p>
 
-Este código realiza uma série de tratamentos nos dados, para garantir que os dados estejam formatados corretamente e prontos para uso em um sistema, com os seguintes passos: 
+- **Raciocínio Lógico em Python** → Tratamento e formatação de dados JSON.  
+- **Consultas em Banco de Dados SQL** → Queries para clientes e pedidos.  
+- **Extração de Dados com Scrapy** → Spider que coleta informações do site Books to Scrape.  
 
-- [Remoção de Espaçamentos e Erros de NBSP]
-- [Conversão de Data]
-- [Substituição de Marcadores]
-- [Transformação de Lista em String]
-- [Exclusão de chaves com valores nulos]
+---
 
-## Lógica do script
+## Raciocínio Lógico em Python
+
+O script trata e formata um arquivo JSON garantindo consistência para uso em sistema.  
+
+### Passos principais
+- Remoção de caracteres indesejados (`NBSP`, espaços extras).  
+- Conversão e padronização de datas.  
+- Substituição de marcadores (`...`) em títulos.  
+- Transformação de listas em strings.  
+- Remoção de chaves nulas ou substituição por valores padrão.  
+
+## Lógica do código
 
 1. **Leitura do arquivo JSON**
 Abre o arquivo original (`teste_estagio_instar.json`) e carrega os dados em memória usando `json.load()`.
