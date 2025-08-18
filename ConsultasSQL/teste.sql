@@ -9,17 +9,17 @@ CREATE TABLE pedidos(
     id_cliente INT NOT NULL,
     data DATE NOT NULL,
     total DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (id_clientes) REFERENCES clientes(id)
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id)
 );
 
-SELECT DISTINCT c.id,c.nome, c.email 
-FROM clientes c 
-JOIN pedidos p ON c.id = p.id_clientes 
-WHERE p.total > 100 
-ORDER BY c.nome
+SELECT DISTINCT c.id, c.nome, c.email
+FROM clientes c
+JOIN pedidos p ON c.id = p.id_cliente
+WHERE p.total > 100
+ORDER BY c.nome;
 
 SELECT c.id, c.nome, COUNT(p.id) AS total_pedidos
 FROM clientes c
 LEFT JOIN pedidos p ON c.id = p.id_cliente
 GROUP BY c.id, c.nome
-ORDER BY total_pedidos DESC
+ORDER BY total_pedidos DESC;

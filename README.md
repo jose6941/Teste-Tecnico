@@ -254,7 +254,7 @@ Cria as tabelas de clientes e pedidos com seus respectivos campos e chaves.
 
     CREATE TABLE pedidos(
         id INT PRIMARY KEY AUTO_INCREMENT,
-        id_cliente INT NOT NULL,
+        id_clientes INT NOT NULL,
         data DATE NOT NULL,
         total DECIMAL(10,2) NOT NULL,
         FOREIGN KEY (id_clientes) REFERENCES clientes(id)
@@ -274,7 +274,7 @@ Neste código há um SELECT para todos os clientes que realizaram pedidos acima 
     FROM clientes c 
     JOIN pedidos p ON c.id = p.id_clientes # Retorna os clientes que possuem algum pedido
     WHERE p.total > 100 # Apenas para pedidos acima de R$ 100
-    ORDER BY c.nome # Ordenado por nome
+    ORDER BY c.nome; # Ordenado por nome
     
 ```
 
@@ -288,9 +288,9 @@ Neste código há um SELECT para mostrar quantos pedidos foram feitos para cada 
 
     SELECT c.id, c.nome, COUNT(p.id) AS total_pedidos # Pega as informações do cliente e o numero de pedidos
     FROM clientes c
-    LEFT JOIN pedidos p ON c.id = p.id_cliente # Retorna todos os clientes, mesmo os que não têm pedidos
+    LEFT JOIN pedidos p ON c.id = p.id_clientes # Retorna todos os clientes, mesmo os que não têm pedidos
     GROUP BY c.id, c.nome # Agrupa os resultados por id e nome do cliente
-    ORDER BY total_pedidos DESC # Ordena pelo total de pedidos de forma decrescente
+    ORDER BY total_pedidos DESC; # Ordena pelo total de pedidos de forma decrescente
     
 ```
 
