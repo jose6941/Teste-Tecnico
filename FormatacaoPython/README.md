@@ -1,0 +1,124 @@
+## Extração de Dados com Scrapy
+
+consiste em implementar um código que extrai as informações da página books.toscrape utilizando a biblioteca Scrapy do Python, tudo isso em um ambiente virtual.  
+
+### Passos principais
+- Criar um ambiente virtual
+- Criar o projeto e o spider.  
+- Criar o código para extrair os dados do site.
+- Executar o spider gerando arquivo em json.   
+
+## Lógica do código
+
+</br>
+
+1. **Criando ambiente virtual:**
+
+Dentro da pasta do projeto, executo os seguintes comandos para criar, ativar o ambiente virtual em python
+
+```bash
+
+    python -m venv "nome do ambiente" # Cria o ambiente virtual
+
+    cd "nome do ambiente" # Entra na pasta do ambiente
+
+    Scripts\activate # Ativa o ambiente
+
+```
+
+</br>
+
+2. **Criando o projeto junto com o spider:**
+
+Dentro da pasta do ambiente virtual, instale a biblioteca scrapy, inicie o projeto scrapy e crie o arquivo do spider com os seguintes comandos
+
+```bash
+
+    pip install scrapy # Instala a biblioteca scrapy
+
+    scrapy startproject "nome do projeto" # Inicia o projeto scrapy
+
+    cd "nome do projeto" # Entra na pasta do projeto
+
+    scrapy genspider "nome do arquivo" "url do site" # Cria o spider com o link do site 
+
+```
+
+</br>
+
+3. **Criando o código para extrair os dados do site:**
+
+Dentro do arquivo spider que foi criado, foi feito os comando para extrair as informações de todos os livros dentro da primeira página, utilizando o comando "response.css" para pegar os valores das classes em css.
+
+```bash
+
+    import scrapy
+
+    class BooksSpider(scrapy.Spider):
+
+        # Nome do arquivo executável e URL da página que terá os dados obtidos
+        name = "books"
+        start_urls = ["https://books.toscrape.com/"]
+
+    def parse(self, response):
+
+        # Percorre todos os cards dos livros da página por meio da class css
+        for livro in response.css('.product_pod'):
+
+            # Retorna as informações de imagem, título, preço e disponibilidade 
+            # de estoque de todos os livros da primeira página
+            yield{
+                "imagem": livro.css('.thumbnail ::attr(src)').get(), 
+                "titulo":  livro.css('.product_pod h3 a ::text').get(),
+                "preco": livro.css('.price_color ::text').get(),
+                "estoque": livro.xpath('//p[@class="instock availability"]/text()[2]').get().strip()
+            }
+
+```
+
+</br>
+
+4. **Executando o spider para gerar arquivo json:**
+
+Feito o código, é possível rodar o arquivo spider com as informações no terminal ou exportar em algum formato, nesse caso iremos gerar o arquivo em json
+
+```bash
+
+    scrapy crawl books # Executa o spider mostrando os dados no terminal
+
+    scrapy crawl books -O "nome_do_arquivo.json" # Gera arquivo no formato json
+
+```
+
+</br>
+
+5. **Resultado:**
+
+Arquivo json com a imagem, título, preço e estoque dos livros
+
+```bash
+
+[
+    {"imagem": "media/cache/2c/da/2cdad67c44b002e7ead0cc35693c0e8b.jpg", "titulo": "A Light in the ...", "preco": "£51.77", "estoque": "In stock"},
+    {"imagem": "media/cache/26/0c/260c6ae16bce31c8f8c95daddd9f4a1c.jpg", "titulo": "Tipping the Velvet", "preco": "£53.74", "estoque": "In stock"},
+    {"imagem": "media/cache/3e/ef/3eef99c9d9adef34639f510662022830.jpg", "titulo": "Soumission", "preco": "£50.10", "estoque": "In stock"},
+    {"imagem": "media/cache/32/51/3251cf3a3412f53f339e42cac2134093.jpg", "titulo": "Sharp Objects", "preco": "£47.82", "estoque": "In stock"},
+    {"imagem": "media/cache/be/a5/bea5697f2534a2f86a3ef27b5a8c12a6.jpg", "titulo": "Sapiens: A Brief History ...", "preco": "£54.23", "estoque": "In stock"},
+    {"imagem": "media/cache/68/33/68339b4c9bc034267e1da611ab3b34f8.jpg", "titulo": "The Requiem Red", "preco": "£22.65", "estoque": "In stock"},
+    {"imagem": "media/cache/92/27/92274a95b7c251fea59a2b8a78275ab4.jpg", "titulo": "The Dirty Little Secrets ...", "preco": "£33.34", "estoque": "In stock"},
+    {"imagem": "media/cache/3d/54/3d54940e57e662c4dd1f3ff00c78cc64.jpg", "titulo": "The Coming Woman: A ...", "preco": "£17.93", "estoque": "In stock"},
+    {"imagem": "media/cache/66/88/66883b91f6804b2323c8369331cb7dd1.jpg", "titulo": "The Boys in the ...", "preco": "£22.60", "estoque": "In stock"},
+    {"imagem": "media/cache/58/46/5846057e28022268153beff6d352b06c.jpg", "titulo": "The Black Maria", "preco": "£52.15", "estoque": "In stock"},
+    {"imagem": "media/cache/be/f4/bef44da28c98f905a3ebec0b87be8530.jpg", "titulo": "Starving Hearts (Triangular Trade ...", "preco": "£13.99", "estoque": "In stock"},
+    {"imagem": "media/cache/10/48/1048f63d3b5061cd2f424d20b3f9b666.jpg", "titulo": "Shakespeare's Sonnets", "preco": "£20.66", "estoque": "In stock"},
+    {"imagem": "media/cache/5b/88/5b88c52633f53cacf162c15f4f823153.jpg", "titulo": "Set Me Free", "preco": "£17.46", "estoque": "In stock"},
+    {"imagem": "media/cache/94/b1/94b1b8b244bce9677c2f29ccc890d4d2.jpg", "titulo": "Scott Pilgrim's Precious Little ...", "preco": "£52.29", "estoque": "In stock"},
+    {"imagem": "media/cache/81/c4/81c4a973364e17d01f217e1188253d5e.jpg", "titulo": "Rip it Up and ...", "preco": "£35.02", "estoque": "In stock"},
+    {"imagem": "media/cache/54/60/54607fe8945897cdcced0044103b10b6.jpg", "titulo": "Our Band Could Be ...", "preco": "£57.25", "estoque": "In stock"},
+    {"imagem": "media/cache/55/33/553310a7162dfbc2c6d19a84da0df9e1.jpg", "titulo": "Olio", "preco": "£23.88", "estoque": "In stock"},
+    {"imagem": "media/cache/09/a3/09a3aef48557576e1a85ba7efea8ecb7.jpg", "titulo": "Mesaerion: The Best Science ...", "preco": "£37.59", "estoque": "In stock"},
+    {"imagem": "media/cache/0b/bc/0bbcd0a6f4bcd81ccb1049a52736406e.jpg", "titulo": "Libertarianism for Beginners", "preco": "£51.33", "estoque": "In stock"},
+    {"imagem": "media/cache/27/a5/27a53d0bb95bdd88288eaf66c9230d7e.jpg", "titulo": "It's Only the Himalayas", "preco": "£45.17", "estoque": "In stock"}
+]
+
+```
