@@ -15,6 +15,11 @@
 - **Extração de Dados com Scrapy:**  Spider que coleta informações do site Books.toScrape.  
 
 ---
+## Sites
+
+- https://sandbox.oxylabs.io/products.
+- https://www.scrapethissite.com/pages/.
+- https://quotes.toscrape.com/.
 
 ## Raciocínio Lógico em Python
 
