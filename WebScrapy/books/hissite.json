@@ -1,0 +1,7 @@
+[
+{"titulo": "Countries of the World: A Simple Example", "descricao": "A single page that lists information about all the countries in the world. Good for those just get started with web scraping."},
+{"titulo": "Hockey Teams: Forms, Searching and Pagination", "descricao": "Browse through a database of NHL team stats since 1990. Practice building a scraper that handles common website interface components."},
+{"titulo": "Oscar Winning Films: AJAX and Javascript", "descricao": "Click through a bunch of great films. Learn how content is added to the page asynchronously with Javascript and how you can scrape it."},
+{"titulo": "Turtles All the Way Down: Frames & iFrames", "descricao": "Some older sites might still use frames to break up thier pages. Modern ones might be using iFrames to expose data. Learn about turtles as you scrape content inside frames."},
+{"titulo": "Advanced Topics: Real World Challenges You'll Encounter", "descricao": "Scraping real websites, you're likely run into a number of common gotchas. Get practice with spoofing headers, handling logins & session cookies, finding CSRF tokens, and other common network errors."}
+]
