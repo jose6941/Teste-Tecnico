@@ -437,28 +437,22 @@ class NoticiasSpider(scrapy.Spider):
     start_urls = ["https://exemplo.com/noticias"]
 
     def parse(self, response):
-        # 1️⃣ Captura todos os links das notícias
         links = response.xpath('//div[@class="noticia"]/a/@href').getall()
 
-        # 2️⃣ Para cada link encontrado, entra na página da notícia
         for link in links:
             yield response.follow(link, callback=self.parse_noticia)
 
-        # 3️⃣ (Opcional) Se tiver paginação, segue para a próxima página
         proxima_pagina = response.xpath('//a[@class="next"]/@href').get()
         if proxima_pagina:
             yield response.follow(proxima_pagina, callback=self.parse)
 
     def parse_noticia(self, response):
-        # 4️⃣ Extrai as informações da notícia
         titulo = response.xpath('//h1/text()').get()
         data = response.xpath('//span[@class="data"]/text()').get()
         texto = response.xpath('//div[@class="conteudo"]//p/text()').getall()
 
-        # Junta o texto em um único bloco
         texto_completo = " ".join(texto).strip()
 
-        # 5️⃣ Retorna os dados extraídos
         yield {
             "titulo": titulo,
             "data": data,
