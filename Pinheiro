@@ -1,0 +1,26 @@
+import scrapy
+
+class NewsSpider(scrapy.Spider):
+    name = "migrar_noticias"
+    allowed_domains = ["pinheiromachado.rs.gov.br"]
+    start_urls = ["http://www.pinheiromachado.rs.gov.br/noticias/"]
+
+    def parse(self, response):
+        for article in response.css("div.post.excerpt"):
+            link = article.css("h2.title a::attr(href)").get()
+            if link:
+                yield response.follow(link, self.parse_article)
+
+        next_page = response.css('a.next.page-numbers::attr(href)').get() or \
+                    response.xpath('//a[contains(text(), "Próxima")]/@href').get()
+        
+        if next_page:
+            yield response.follow(next_page, self.parse)
+
+    def parse_article(self, response):
+        yield {
+            "titulo": response.css("h1.title.single-title::text").get(),
+            "data": response.css(".single-postmeta::text").re_first(r"\d{2}/\d{2}/\d{4}"),
+            "texto": " ".join(response.css(".post-single-content p::text").getall()).strip(),
+            "imagens": response.css(".post-single-content img::attr(src)").get(),
+        }
